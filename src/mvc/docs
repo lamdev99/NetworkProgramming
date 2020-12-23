@@ -1,0 +1,12 @@
+Mô hình MVC với thực thể thuần:
+Model : chỉ chứa get/set
+Controller : chứa các hàm làm việc với DB
+View : bắt sự kiện của người dùng
+Mô hình MVC với thực thể bean:
+Model : gồm get/set và các hàm làm việc với DB
+Controller : có thể không có
+View : bắt sự kiện người dùng
+MVC cả tiên:
+Model : chỉ chứa get/set
+View : chứa các hàm bắt sự kiện chứ không triển khai
+Controller : cầu nối giữa Model và View, thao tác với DB, thực hiện hành đông khi ấn nút ở web
