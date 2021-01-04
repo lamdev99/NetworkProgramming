@@ -43,6 +43,7 @@ public class ServerUDP {
         tReceive = new Thread(() -> {
             while (true) {
                 try {
+                    System.out.println("1");
                     byte[] receiveData = new byte[1024];
                     receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
@@ -98,6 +99,7 @@ public class ServerUDP {
             }
 
         });
+        tSend.start();
     }
 
     public static void main(String[] args) {

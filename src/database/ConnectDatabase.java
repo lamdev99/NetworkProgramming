@@ -26,7 +26,6 @@ public class ConnectDatabase {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ConnectDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ///
     }
     public static Connection getConnection(){
         if(conn == null){

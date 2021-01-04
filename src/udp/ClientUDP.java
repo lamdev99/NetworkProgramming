@@ -33,6 +33,7 @@ public class ClientUDP {
         try {
             myClient = new DatagramSocket(Usage.clientPort);
             sendData(new Message(new Person("Lam", 21), Message.MesType.SEND_FROM_CLIENT));
+            sendData(new Message(new Person("Lam", 21), Message.MesType.SEND_FROM_CLIENT));
             receiveData();
         } catch (SocketException ex) {
             Logger.getLogger(ClientUDP.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,6 +52,7 @@ public class ClientUDP {
                 DatagramPacket sendPacket = new DatagramPacket(sendData,
                         sendData.length, IpAddress, Usage.port);
                 myClient.send(sendPacket);
+                System.out.println("1");
             } catch (IOException ex) {
                 Logger.getLogger(ClientUDP.class.getName()).log(Level.SEVERE, null, ex);
             }

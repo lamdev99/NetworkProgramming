@@ -55,7 +55,7 @@ public class ServerTCP {
         tReceive = new Thread(() -> {
 
             try {
-                while (true) {
+//                while (true) {
                     cliSocket = serverSocket.accept();
                     oos = new ObjectOutputStream(cliSocket.getOutputStream());
                     ois = new ObjectInputStream(cliSocket.getInputStream());
@@ -85,7 +85,7 @@ public class ServerTCP {
                         }
                         Thread.sleep(1000);
                     }
-                }
+//                }
             } catch (InterruptedException | IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
