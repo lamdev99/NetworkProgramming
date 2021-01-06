@@ -38,6 +38,7 @@ public class ServerUDP {
         try {
             serverSocket = new DatagramSocket(6868);
             serverDao = new ServerDao();
+            receiveData();
         } catch (SocketException ex) {
             Logger.getLogger(ServerUDP.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -52,18 +53,20 @@ public class ServerUDP {
                 ois = new ObjectInputStream(bais);
                 Object o = ois.readObject();
                 if(o instanceof Message){
+                    System.out.println("Receive Data from : "+receivePacket.getAddress()+" "+receivePacket.getPort());
                     Message mes = (Message) o;
                     switch(mes.getMessageType()){
                         case GET_ALL:{
                             List<Sinhvien> list = serverDao.getAllSinhviens();
                             Message mesSend = new Message(list, Message.MessageType.GET_ALL);
-                            sendData(mes);
+                            sendData(mesSend);
+                            break;
                         }
                         case SEARCH:{
                             String s = (String) mes.getO();
                             List<Sinhvien> list = serverDao.search(s);
                             Message mesSend = new Message(list, Message.MessageType.SEARCH);
-                            sendData(mes);
+                            sendData(mesSend);
                             break;
                         }
                         case UPDATE:{

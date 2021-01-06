@@ -5,11 +5,13 @@
  */
 package demau.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author lamit
  */
-public class Message {
+public class Message implements Serializable{
     private Object o;
     private MessageType messageType;
 

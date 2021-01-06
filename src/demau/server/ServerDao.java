@@ -55,7 +55,6 @@ public class ServerDao {
         try {
             pre = conn.prepareStatement(SQLConnection.searchSV);
             pre.setString(1, "%"+s+"%");
-            System.out.println(pre.toString());
             ResultSet rs = pre.executeQuery();
             while (rs.next()) {
                 Sinhvien sv = new Sinhvien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
