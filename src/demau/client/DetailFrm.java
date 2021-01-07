@@ -43,7 +43,7 @@ public class DetailFrm extends javax.swing.JFrame {
         tfGrade.setText(sv.getGrade());
         tfHome.setText(sv.getHometown());
     }
-    public Sinhvien getSinhvien(){
+    public Sinhvien getSinhvien(){  
         sv.setDob(tfDob.getText());
         sv.setName(tfName.getText());
         sv.setGrade(tfGrade.getText());
