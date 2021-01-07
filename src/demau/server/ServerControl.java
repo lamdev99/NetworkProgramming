@@ -5,6 +5,7 @@
  */
 package demau.server;
 
+import demau.server.tcp.ServerTCP;
 import java.rmi.RemoteException;
 
 /**
@@ -13,6 +14,6 @@ import java.rmi.RemoteException;
  */
 public class ServerControl {
     public static void main(String[] args) throws RemoteException {
-        ServerRMI serverRMI = new ServerRMI();
+        ServerTCP serverTCP = new ServerTCP();
     }
 }

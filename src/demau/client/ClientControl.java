@@ -5,6 +5,8 @@
  */
 package demau.client;
 
+import demau.client.tcp.ClientTCP;
+import demau.model.Message;
 import demau.model.Point;
 import demau.model.Sinhvien;
 import java.awt.event.ActionEvent;
@@ -24,14 +26,15 @@ import org.w3c.dom.events.MouseEvent;
 public class ClientControl {
     ClientFrm clientFrm;
     DetailFrm detailFrm;
-    ClientRMI clientRMI;
+    ClientTCP clientTCP;
     List<Sinhvien> list = new ArrayList<>();
-    public ClientControl() throws RemoteException {
-        clientRMI = new ClientRMI();
+    public ClientControl()  {
         clientFrm = new ClientFrm();
         detailFrm = new DetailFrm();
+        clientTCP = new ClientTCP();
+        clientTCP.sendMessage(new Message("get all", Message.MessageType.GET_ALL));
+        list = (List<Sinhvien>) clientTCP.receiveMessage();
         clientFrm.setVisible(true);
-        list = clientRMI.getAllSinhvien();
         clientFrm.setList(list);
         clientFrm.setAction(new ButtonSearch(),new ChooseOne());
     }
@@ -41,19 +44,7 @@ public class ClientControl {
         public void actionPerformed(ActionEvent ae) {
             Sinhvien sv = detailFrm.getSinhvien();
             List<Point> listz = detailFrm.getList();
-            try {
-                clientRMI.update(sv, listz);
-            } catch (RemoteException ex) {
-                Logger.getLogger(ClientControl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            detailFrm.dispose();
-            try {
-                list = clientRMI.getAllSinhvien();
-
-                clientFrm.setList(list);
-            } catch (RemoteException ex) {
-                Logger.getLogger(ClientControl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           
         }
         
     }
@@ -65,11 +56,7 @@ public class ClientControl {
             detailFrm.setVisible(true);
             detailFrm.setSinhvien(sv);
             detailFrm.setAction(new ButtonSubmit());
-            try {
-                detailFrm.setList(clientRMI.getAllInfo(sv.getId()));
-            } catch (RemoteException ex) {
-                Logger.getLogger(ClientControl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
         }
 
         @Override
@@ -93,12 +80,10 @@ public class ClientControl {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            try {
-                list = clientRMI.search(clientFrm.getText());
-                clientFrm.setList(list);
-            } catch (RemoteException ex) {
-                Logger.getLogger(ClientControl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            System.out.println("send");
+            clientTCP.sendMessage(new Message(clientFrm.getText(), Message.MessageType.SEARCH));
+            list = (List<Sinhvien>) clientTCP.receiveMessage();
+            clientFrm.setList(list);
         }
         
     }
