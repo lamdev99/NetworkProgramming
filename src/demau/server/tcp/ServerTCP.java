@@ -57,12 +57,9 @@ public class ServerTCP {
                                 break;
                             }
                             case SEARCH: {
-                                System.out.println("0");
                                 List<Sinhvien> list = serverDao.search((String) mesReceive.getO());
                                 Message mes = new Message(list, Message.MessageType.SEARCH);
-                                System.out.println("1");
                                 sendMessage(mes);
-                                System.out.println("2");
                                 break;
                             }
                         }
