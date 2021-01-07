@@ -40,48 +40,44 @@ public class ServerTCP {
     }
 
     public void receiveMessage() {
-        Thread t = new Thread(() -> {
-            try {
+        try {
+            while (true) {
+                cliSockket = serverSocket.accept();
+                oos = new ObjectOutputStream(cliSockket.getOutputStream());
+                ois = new ObjectInputStream(cliSockket.getInputStream());
                 while (true) {
-                    cliSockket = serverSocket.accept();
-                    oos = new ObjectOutputStream(cliSockket.getOutputStream());
-                    ois = new ObjectInputStream(cliSockket.getInputStream());
-                    while (true) {
-                        Object o = ois.readObject();
-                        if (o instanceof Message) {
-                            Message mesReceive = (Message) o;
-                            switch (mesReceive.getMessageType()) {
-                                case GET_ALL: {
-                                    List<Sinhvien> list = serverDao.getAllSinhviens();
-                                    Message mes = new Message(list, Message.MessageType.GET_ALL);
-                                    sendMessage(mes);
-                                    break;
-                                }
-                                case SEARCH: {
-                                    System.out.println("0");
-                                    List<Sinhvien> list = serverDao.search((String) mesReceive.getO());
-                                    Message mes = new Message(list, Message.MessageType.SEARCH);
-                                    System.out.println("1");
-                                    sendMessage(mes);
-                                    System.out.println("2");
-                                    break;
-                                }
+                    Object o = ois.readObject();
+                    if (o instanceof Message) {
+                        Message mesReceive = (Message) o;
+                        switch (mesReceive.getMessageType()) {
+                            case GET_ALL: {
+                                List<Sinhvien> list = serverDao.getAllSinhviens();
+                                Message mes = new Message(list, Message.MessageType.GET_ALL);
+                                sendMessage(mes);
+                                break;
                             }
-//                    }
+                            case SEARCH: {
+                                System.out.println("0");
+                                List<Sinhvien> list = serverDao.search((String) mesReceive.getO());
+                                Message mes = new Message(list, Message.MessageType.SEARCH);
+                                System.out.println("1");
+                                sendMessage(mes);
+                                System.out.println("2");
+                                break;
+                            }
                         }
-                        Thread.sleep(1000);
                     }
-                }
-            } catch (IOException | ClassNotFoundException | InterruptedException ex) {
-                try {
-                    cliSockket.close();
-                    serverSocket.close();
-                } catch (IOException ex1) {
-                    Logger.getLogger(ServerTCP.class.getName()).log(Level.SEVERE, null, ex1);
+                    Thread.sleep(1000);
                 }
             }
-        });
-        t.start();
+        } catch (IOException | ClassNotFoundException | InterruptedException ex) {
+            try {
+                cliSockket.close();
+                serverSocket.close();
+            } catch (IOException ex1) {
+                Logger.getLogger(ServerTCP.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
 
     }
 
