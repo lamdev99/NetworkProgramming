@@ -40,11 +40,9 @@ public class ServerTCP {
     }
 
     public void receiveMessage() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-//                    while (true) {
+        Thread t = new Thread(() -> {
+            try {
+                while (true) {
                     cliSockket = serverSocket.accept();
                     oos = new ObjectOutputStream(cliSockket.getOutputStream());
                     ois = new ObjectInputStream(cliSockket.getInputStream());
@@ -73,13 +71,13 @@ public class ServerTCP {
                         }
                         Thread.sleep(1000);
                     }
-                } catch (IOException | ClassNotFoundException | InterruptedException ex) {
-                    try {
-                        cliSockket.close();
-                        serverSocket.close();
-                    } catch (IOException ex1) {
-                        Logger.getLogger(ServerTCP.class.getName()).log(Level.SEVERE, null, ex1);
-                    }
+                }
+            } catch (IOException | ClassNotFoundException | InterruptedException ex) {
+                try {
+                    cliSockket.close();
+                    serverSocket.close();
+                } catch (IOException ex1) {
+                    Logger.getLogger(ServerTCP.class.getName()).log(Level.SEVERE, null, ex1);
                 }
             }
         });
